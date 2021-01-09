@@ -5,28 +5,38 @@ import os
 from argparse import ArgumentParser
 
 
-def l_flag(args_list_arg, dirs_list_arg: list, files_list_arg: list, ls_path_arg: str) -> str:
-    """Returns string to print (-l flag)."""
-    ls_path = ls_path_arg
+def l_flag(args_list_arg, dirs_list_arg: list, files_list_arg: list, ls_path_arg: str):
+    """Prints directories and files like bash -l option."""
+    if not args_list_arg.all:
+        dirs_list = list(filter(lambda x: x[0] != '.', dirs_list_arg))
+        files_list = list(filter(lambda x: x[0] != '.', files_list_arg))
+    else:
+        dirs_list = dirs_list_arg
+        files_list = files_list_arg
 
-    to_print = ""
-    for directory in dirs_list_arg:
-        if not args_list_arg.all:
-            if directory[0] != '.':
-                chmod = os.popen(f'find {f"{ls_path}/{directory}"} -printf "%M\n"').read()
-                print(f"{chmod}")
-        else:
-            print(f"")
+    for directory in dirs_list:
+        chmod = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 1''').read().strip()
+        hard_links = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 2''').read().strip()
+        user = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 3''').read().strip()
+        group = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 4''').read().strip()
+        kilobytes = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 5''').read().strip()
+        date = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 6''').read().strip()
+        hour = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 7''').read().strip()
+        dir_name = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 8''').read().strip()
 
-    for file in files_list_arg:
-        if not args_list_arg.all:
-            if file[0] != '.':
-                chmod = os.popen(f'find {f"{ls_path}/{file}"} -printf "%M\n"').read()
-                print(f"")
-        else:
-            print(f"{chmod}")
+        print(f"{chmod} {hard_links} {user} {group} {kilobytes} {date} {hour} {dir_name}")
 
-    return f"{dirs_list_arg, files_list_arg}"
+    for file in files_list:
+        chmod = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 1''').read().strip()
+        hard_links = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 2''').read().strip()
+        user = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 3''').read().strip()
+        group = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 4''').read().strip()
+        kilobytes = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 5''').read().strip()
+        date = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 6''').read().strip()
+        hour = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 7''').read().strip()
+        file_name = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 8''').read().strip()
+
+        print(f"{chmod} {hard_links} {user} {group} {kilobytes} {date} {hour} {file_name}")
 
 
 def main():
@@ -53,26 +63,25 @@ def main():
             for directory in dirs_list:
                 if not args.all:
                     if directory[0] != '.':
-                        to_print = f"{to_print}\t{directory}"
+                        to_print = f"{to_print}  {directory}"
                 else:
-                    to_print = f"{to_print}\t{directory}"
+                    to_print = f"{to_print}  {directory}"
 
             for file in files_list:
                 if not args.all:
                     if file[0] != '.':
-                        to_print = f"{to_print}\t{file}"
+                        to_print = f"{to_print}  {file}"
                 else:
-                    to_print = f"{to_print}\t{file}"
+                    to_print = f"{to_print}  {file}"
 
-            print(to_print[1:])
-            # "1:" because the first character is a tabulator
+            print(to_print[2:])
         else:
-            print(l_flag(
+            l_flag(
                 args_list_arg=args,
                 dirs_list_arg=dirs_list,
                 files_list_arg=files_list,
                 ls_path_arg=ls_path,
-            ))
+            )
     else:
         print(f"{ls_path}: No such file or directory.")
 

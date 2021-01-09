@@ -7,11 +7,24 @@ from argparse import ArgumentParser
 
 def l_flag(args_list_arg, dirs_list_arg: list, files_list_arg: list, ls_path_arg: str) -> str:
     """Returns string to print (-l flag)."""
-    if args_list_arg.all:
-        pass
-    else:
-        dirs_list_arg = list(filter((lambda x: x[0] != '.'), dirs_list_arg))
-        files_list_arg = list(filter((lambda x: x[0] != '.'), files_list_arg))
+    ls_path = ls_path_arg
+
+    to_print = ""
+    for directory in dirs_list_arg:
+        if not args_list_arg.all:
+            if directory[0] != '.':
+                chmod = os.popen(f'find {f"{ls_path}/{directory}"} -printf "%M\n"').read()
+                print(f"{chmod}")
+        else:
+            print(f"")
+
+    for file in files_list_arg:
+        if not args_list_arg.all:
+            if file[0] != '.':
+                chmod = os.popen(f'find {f"{ls_path}/{file}"} -printf "%M\n"').read()
+                print(f"")
+        else:
+            print(f"{chmod}")
 
     return f"{dirs_list_arg, files_list_arg}"
 
@@ -34,8 +47,6 @@ def main():
                 dirs_list.append(_)
             elif os.path.isfile(os.path.join(ls_path, _)):
                 files_list.append(_)
-
-        print(dirs_list)
 
         if not args.l:
             to_print = ""

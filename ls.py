@@ -1,8 +1,11 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-import os
+from os import path
 from argparse import ArgumentParser
+from string import ascii_lowercase, ascii_uppercase
+
+from get_functions import *
 
 
 def l_flag(args_list_arg, dirs_list_arg: list, files_list_arg: list, ls_path_arg: str):
@@ -10,33 +13,38 @@ def l_flag(args_list_arg, dirs_list_arg: list, files_list_arg: list, ls_path_arg
     if not args_list_arg.all:
         dirs_list = list(filter(lambda x: x[0] != '.', dirs_list_arg))
         files_list = list(filter(lambda x: x[0] != '.', files_list_arg))
+
+        dirs_list.sort()
+        files_list.sort()
     else:
         dirs_list = dirs_list_arg
         files_list = files_list_arg
 
     for directory in dirs_list:
-        chmod = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 1''').read().strip()
-        hard_links = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 2''').read().strip()
-        user = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 3''').read().strip()
-        group = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 4''').read().strip()
-        kilobytes = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 5''').read().strip()
-        date = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 6''').read().strip()
-        hour = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 7''').read().strip()
-        dir_name = os.popen(f'''ls -l {ls_path_arg} | grep {directory} |  cut -d ' ' -f 8''').read().strip()
+        directory_path = path.join(ls_path_arg, directory)
 
-        print(f"{chmod} {hard_links} {user} {group} {kilobytes} {date} {hour} {dir_name}")
+        chmod = get_chmod(directory_path)
+        hard_links = get_hard_links_amount(directory_path)
+        user = user_who_created(directory_path)
+        group = get_group(directory_path)
+        kilobytes = get_size(directory_path)
+        date = get_date(directory_path)
+        hour = get_time(directory_path)
+
+        print(f"{chmod} {hard_links} {user} {group} {kilobytes} {date} {hour} {directory}")
 
     for file in files_list:
-        chmod = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 1''').read().strip()
-        hard_links = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 2''').read().strip()
-        user = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 3''').read().strip()
-        group = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 4''').read().strip()
-        kilobytes = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 5''').read().strip()
-        date = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 6''').read().strip()
-        hour = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 7''').read().strip()
-        file_name = os.popen(f'''ls -l {ls_path_arg} | grep {file} |  cut -d ' ' -f 8''').read().strip()
+        file_path = os.path.join(ls_path_arg, file)
 
-        print(f"{chmod} {hard_links} {user} {group} {kilobytes} {date} {hour} {file_name}")
+        chmod = get_chmod(file)
+        hard_links = get_hard_links_amount(file_path)
+        user = user_who_created(file_path)
+        group = get_group(file_path)
+        kilobytes = get_size(file_path)
+        date = get_date(file_path)
+        hour = get_time(file_path)
+
+        print(f"{chmod} {hard_links} {user} {group} {kilobytes} {date} {hour} {file}")
 
 
 def main():

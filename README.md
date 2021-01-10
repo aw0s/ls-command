@@ -2,7 +2,7 @@
 Python implementation of ls command.
 
 # Platform
-The program works only on Linux. I'm planning to make the program available for Windows too.
+The program works only on Linux. I'm planning to make the program working on Windows too.
 
 # Download
 To download the project, type `git clone https://github.com/aw0s/ls-command.git` in folder which you want the program to be placed in. You can also download ZIP file and then unpack it.

@@ -39,7 +39,7 @@ def main():
     ls_path = args.path
 
     if os.path.exists(ls_path):
-        elements_list = [*os.listdir(ls_path)]
+        elements_list = ['.', '..', *os.listdir(ls_path)]
 
         if not args.l:
             to_print = ""

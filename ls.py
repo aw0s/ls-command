@@ -1,50 +1,30 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
-from os import path
+import os
 from argparse import ArgumentParser
-from string import ascii_lowercase, ascii_uppercase
 
-from get_functions import *
+from get_parameters_class import LFlag
+from get_functions import get_size
 
 
-def l_flag(args_list_arg, dirs_list_arg: list, files_list_arg: list, ls_path_arg: str):
+def l_flag(args_list_arg, elements_list_arg: list, ls_path_arg: str):
     """Prints directories and files like bash -l option."""
     if not args_list_arg.all:
-        dirs_list = list(filter(lambda x: x[0] != '.', dirs_list_arg))
-        files_list = list(filter(lambda x: x[0] != '.', files_list_arg))
-
-        dirs_list.sort()
-        files_list.sort()
+        elements_list = list(filter(lambda x: x[0] != '.' and x[0] != '..', elements_list_arg))
+        elements_list.sort()
     else:
-        dirs_list = dirs_list_arg
-        files_list = files_list_arg
+        elements_list = elements_list_arg
 
-    for directory in dirs_list:
-        directory_path = path.join(ls_path_arg, directory)
+    chars_max = 0
+    for element in elements_list:
+        element_path = os.path.join(ls_path_arg, element)
 
-        chmod = get_chmod(directory_path)
-        hard_links = get_hard_links_amount(directory_path)
-        user = user_who_created(directory_path)
-        group = get_group(directory_path)
-        kilobytes = get_size(directory_path)
-        date = get_date(directory_path)
-        hour = get_time(directory_path)
+        if (element_size := len(str(get_size(element_path)))) > chars_max:
+            chars_max = element_size
 
-        print(f"{chmod} {hard_links} {user} {group} {kilobytes} {date} {hour} {directory}")
-
-    for file in files_list:
-        file_path = os.path.join(ls_path_arg, file)
-
-        chmod = get_chmod(file)
-        hard_links = get_hard_links_amount(file_path)
-        user = user_who_created(file_path)
-        group = get_group(file_path)
-        kilobytes = get_size(file_path)
-        date = get_date(file_path)
-        hour = get_time(file_path)
-
-        print(f"{chmod} {hard_links} {user} {group} {kilobytes} {date} {hour} {file}")
+        file_or_dir = LFlag(element_path, chars_max, element)
+        print(str(file_or_dir))
 
 
 def main():
@@ -59,35 +39,22 @@ def main():
     ls_path = args.path
 
     if os.path.exists(ls_path):
-        dirs_list, files_list = [], []
-        for _ in os.listdir(ls_path):
-            if os.path.isdir(os.path.join(ls_path, _)):
-                dirs_list.append(_)
-            elif os.path.isfile(os.path.join(ls_path, _)):
-                files_list.append(_)
+        elements_list = [*os.listdir(ls_path)]
 
         if not args.l:
             to_print = ""
-            for directory in dirs_list:
+            for element in elements_list:
                 if not args.all:
-                    if directory[0] != '.':
-                        to_print = f"{to_print}  {directory}"
+                    if element[0] != '.':
+                        to_print = f"{to_print}  {element}"
                 else:
-                    to_print = f"{to_print}  {directory}"
-
-            for file in files_list:
-                if not args.all:
-                    if file[0] != '.':
-                        to_print = f"{to_print}  {file}"
-                else:
-                    to_print = f"{to_print}  {file}"
+                    to_print = f"{to_print}  {element}"
 
             print(to_print[2:])
         else:
             l_flag(
                 args_list_arg=args,
-                dirs_list_arg=dirs_list,
-                files_list_arg=files_list,
+                elements_list_arg=elements_list,
                 ls_path_arg=ls_path,
             )
     else:

@@ -8,6 +8,7 @@ class LFlag:
     def __init__(self, path: str, chars_max: int, element: str):
         self.path = path
         self.chars_max = chars_max
+        self.element = element
 
         self.chmod = ""
         self.hard_links = ""
@@ -16,7 +17,6 @@ class LFlag:
         self.kilobytes = ""
         self.date = ""
         self.hour = ""
-        self.element = element
 
         self.to_print = ""
 

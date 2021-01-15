@@ -37,19 +37,20 @@ def get_group(path: str) -> str:
     return group
 
 
-def get_size(path: str) -> int:
-    return os.path.getsize(path)
+def get_size(path: str) -> str:
+    size = str(os.path.getsize(path))
+    return size
 
 
 def get_date(path: str) -> str:
-    unix_time = os.path.getsize(path)
+    unix_time = os.path.getmtime(path)
     common_date = datetime.utcfromtimestamp(unix_time).strftime('%m-%d')
 
     return common_date
 
 
 def get_time(path: str) -> str:
-    unix_time = os.path.getsize(path)
+    unix_time = os.path.getmtime(path) + 3600
     common_time = datetime.utcfromtimestamp(unix_time).strftime('%H:%M')
 
     return common_time

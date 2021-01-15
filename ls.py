@@ -8,18 +8,19 @@ from get_parameters_class import LFlag
 from get_functions import get_size
 
 
-def l_flag(args_list_arg, elements_list_arg: list, ls_path_arg: str):
+def l_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
     """Prints directories and files like bash -l option."""
-    if not args_list_arg.all:
-        elements_list = list(filter(lambda x: x[0] != '.' and x[0] != '..', elements_list_arg))
-        elements_list.sort()
+    if not args_arg.all:
+        elements_list = list(filter(lambda x: x[0] != '.' and x[:2] != '..', elements_list_arg))
     else:
         elements_list = elements_list_arg
+
+    if not args_arg.t:
+        elements_list.sort(key=str.lower)
 
     chars_max = 0
     for element in elements_list:
         element_path = os.path.join(ls_path_arg, element)
-
         if (element_size := len(str(get_size(element_path)))) > chars_max:
             chars_max = element_size
 
@@ -32,29 +33,52 @@ def main():
 
     parser.add_argument('-a', '--all', action='store_true')
     parser.add_argument('-l', action='store_true')
+    parser.add_argument('-t', action='store_true')
     parser.add_argument(type=str, dest='path', nargs='?', default=os.getcwd())
 
     args = parser.parse_args()
 
     ls_path = args.path
-
     if os.path.exists(ls_path):
-        elements_list = ['.', '..', *os.listdir(ls_path)]
+        elements_list = sorted(['.', '..', *os.listdir(ls_path)], key=str.lower)
+
+        time_dict = {x: round(os.path.getmtime(os.path.join(ls_path, x))) for x in elements_list}
+        time_sorted_dict = {
+            key: value for key, value in sorted(
+                time_dict.items(), key=(lambda item: item[1]), reverse=True
+            )
+        }
+
+        if not args.all:
+            if args.t:
+                time_sorted_list = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), time_sorted_dict.keys()))
+                chosen_list = time_sorted_list.copy()
+                print("selected 1")
+            else:
+                elements_list_not_all = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), elements_list))
+                chosen_list = elements_list_not_all.copy()
+                print("selected 2")
+        else:
+            if args.t:
+                time_sorted_list = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), time_sorted_dict.keys()))
+                chosen_list = time_sorted_list.copy()
+                print("selected 3")
+            else:
+                elements_list_not_all = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), elements_list))
+                chosen_list = elements_list_not_all.copy()
+                print("selected 4")
 
         if not args.l:
             to_print = ""
-            for element in elements_list:
-                if not args.all:
-                    if element[0] != '.':
-                        to_print = f"{to_print}  {element}"
-                else:
-                    to_print = f"{to_print}  {element}"
+            for element in chosen_list:
+                to_print = f"{to_print}  {element}"
 
             print(to_print[2:])
         else:
+            print(chosen_list)
             l_flag(
-                args_list_arg=args,
-                elements_list_arg=elements_list,
+                args_arg=args,
+                elements_list_arg=chosen_list,
                 ls_path_arg=ls_path,
             )
     else:

@@ -33,7 +33,6 @@ class LFlag:
             difference = chars_max - len(str(self.kilobytes))
         else:
             difference = 0
-
         spaces = difference * ' '
 
         to_print = f"{self.chmod} {self.hard_links} {self.user} {self.group} {spaces}{self.kilobytes} {self.date} {self.hour} {self.element}"

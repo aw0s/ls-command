@@ -53,20 +53,16 @@ def main():
             if args.t:
                 time_sorted_list = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), time_sorted_dict.keys()))
                 chosen_list = time_sorted_list.copy()
-                print("selected 1")
             else:
                 elements_list_not_all = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), elements_list))
                 chosen_list = elements_list_not_all.copy()
-                print("selected 2")
         else:
             if args.t:
                 time_sorted_list = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), time_sorted_dict.keys()))
                 chosen_list = time_sorted_list.copy()
-                print("selected 3")
             else:
                 elements_list_not_all = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), elements_list))
                 chosen_list = elements_list_not_all.copy()
-                print("selected 4")
 
         if not args.l:
             to_print = ""

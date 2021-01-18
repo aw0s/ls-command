@@ -74,8 +74,7 @@ def main():
                 time_sorted_list = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), time_sorted_dict.keys()))
                 chosen_list = time_sorted_list.copy()
             else:
-                elements_list_not_all = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), elements_list))
-                chosen_list = elements_list_not_all.copy()
+                chosen_list = elements_list.copy()
 
         if not args.l:
             to_print = ""

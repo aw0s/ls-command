@@ -17,13 +17,13 @@ def l_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
         elements_list = elements_list_arg
 
     if not args_arg.t:
-        """Sorting th"""
+        """Sorting the list only by letters and digits."""
         words = printable
         words = words.replace(digits + ascii_letters, "")
 
-        elements_dict = {element: element.lstrip(words) for element in elements_list}
-        elements_dict = dict(sorted(list(elements_dict.items()), key=lambda x: x[1].lower()))
-        elements_list = list(elements_dict.keys())
+        alphabet_dict = {element: element.lstrip(words) for element in elements_list}
+        alphabet_dict = dict(sorted(list(alphabet_dict.items()), key=lambda x: x[1].lower()))
+        elements_list = list(alphabet_dict.keys())
 
     chars_max = 0
     for element in elements_list:
@@ -55,6 +55,12 @@ def main():
                 time_dict.items(), key=(lambda item: item[1]), reverse=True
             )
         }
+        words = printable
+        words = words.replace(digits + ascii_letters, "")
+
+        alphabet_dict = {element: element.lstrip(words) for element in elements_list}
+        alphabet_dict = dict(sorted(list(alphabet_dict.items()), key=lambda x: x[1].lower()))
+        elements_list = list(alphabet_dict.keys())
 
         if not args.all:
             if args.t:

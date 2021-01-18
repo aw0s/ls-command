@@ -48,7 +48,7 @@ def main():
     ls_path = args.path
     if os.path.exists(ls_path):
         elements_list = sorted(['.', '..', *os.listdir(ls_path)], key=str.lower)
-
+        
         time_dict = {x: round(os.path.getmtime(os.path.join(ls_path, x))) for x in elements_list}
         time_sorted_dict = {
             key: value for key, value in sorted(

@@ -3,6 +3,7 @@
 
 import os
 from argparse import ArgumentParser
+from string import printable, digits, ascii_letters
 
 from get_parameters_class import LFlag
 from get_functions import get_size
@@ -16,7 +17,13 @@ def l_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
         elements_list = elements_list_arg
 
     if not args_arg.t:
-        elements_list.sort(key=str.lower)
+        """Sorting th"""
+        words = printable
+        words = words.replace(digits + ascii_letters, "")
+
+        elements_dict = {element: element.lstrip(words) for element in elements_list}
+        elements_dict = dict(sorted(list(elements_dict.items()), key=lambda x: x[1].lower()))
+        elements_list = list(elements_dict.keys())
 
     chars_max = 0
     for element in elements_list:
@@ -71,7 +78,6 @@ def main():
 
             print(to_print[2:])
         else:
-            print(chosen_list)
             l_flag(
                 args_arg=args,
                 elements_list_arg=chosen_list,

@@ -10,26 +10,26 @@ from datetime import datetime
 
 
 def get_chmod(path: str) -> str:
-    file_status = os.stat(path)
+    file_status = os.lstat(path)
     chmod = filemode(file_status.st_mode)
 
     return chmod
 
 
 def get_hard_links_amount(path: str) -> str:
-    hard_links_amount = os.stat(path).st_nlink
+    hard_links_amount = os.lstat(path).st_nlink
 
     return str(hard_links_amount)
 
 
 def user_who_created(path: str) -> str:
-    username = getpwuid(os.stat(path).st_uid).pw_name
+    username = getpwuid(os.lstat(path).st_uid).pw_name
 
     return username
 
 
 def get_group(path: str) -> str:
-    stat_info = os.stat(path)
+    stat_info = os.lstat(path)
 
     gid = stat_info.st_gid
     group = getgrgid(gid)[0]
@@ -38,19 +38,20 @@ def get_group(path: str) -> str:
 
 
 def get_size(path: str) -> str:
-    size = str(os.path.getsize(path))
+    # size = str(os.path.getsize(path))
+    size = str(os.lstat(path).st_size)
     return size
 
 
 def get_date(path: str) -> str:
-    unix_time = os.path.getmtime(path)
+    unix_time = os.lstat(path).st_mtime
     common_date = datetime.utcfromtimestamp(unix_time).strftime('%m-%d')
 
     return common_date
 
 
 def get_time(path: str) -> str:
-    unix_time = os.path.getmtime(path) + 3600
+    unix_time = os.lstat(path).st_mtime + 3600
     common_time = datetime.utcfromtimestamp(unix_time).strftime('%H:%M')
 
     return common_time

@@ -1,5 +1,5 @@
 # ls-command
-Python implementation of ls command.
+Python implementation of Linux ls command.
 
 # Platform
 The program works only on Linux. I'm planning to make it work on Windows too.

@@ -41,6 +41,7 @@ def l_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
         if (element_size := len(str(get_size(element_path)))) > size_chm:
             size_chm = element_size
 
+        """chm - chars max"""
         file_or_dir = LFlag(element_path, element, {
             'hard_links': hard_links_chm,
             'user': user_chm,

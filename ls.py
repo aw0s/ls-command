@@ -41,6 +41,9 @@ def l_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
         if (element_size := len(str(get_size(element_path)))) > size_chm:
             size_chm = element_size
 
+    for element in elements_list:
+        element_path = os.path.join(ls_path_arg, element)
+
         """chm - chars max"""
         file_or_dir = LFlag(element_path, element, {
             'hard_links': hard_links_chm,
@@ -73,7 +76,6 @@ def main():
             else:
                 time_dict |= {x: round(os.path.getmtime(os.path.join(ls_path, x)))}
 
-        # time_dict = {x: round(os.path.getmtime(path := os.path.join(ls_path, x))) for x in elements_list if not os.path.islink(path) else os.lstat(path).st_ctime}
         time_sorted_dict = {
             key: value for key, value in sorted(
                 time_dict.items(), key=(lambda item: item[1]), reverse=True

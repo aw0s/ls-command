@@ -8,7 +8,7 @@ The program currently works only on Linux. I'm planning to make it work on Windo
 To download the project, type `git clone https://github.com/aw0s/ls-command.git` in folder which you want the program to be placed in. You can also download ZIP file and then unpack it.
 
 # Running the program
-Type `cd ls-command` and then `python ls.py`. If names of folders and files print, the program is working correctly. If something went wrong, report the bug in `Issues` on the project's Github. Make sure you've installed Python package.
+Type `cd ls-command` and then `python ls.py`. If names of folders and files have been printed, the app is working correctly. If something went wrong, report the bug in `Issues` on the project's Github. Make sure you've installed Python package.
 
 # Usage
 You can use the application passing directory as an argument during executing the program. For example: `python ls.py directory`.

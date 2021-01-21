@@ -20,3 +20,6 @@ So far you can run the program using 3 flags: `-a`, `-A`, `-l` and `-t`:
 `-l` shows all parameters of the directory or file.
 `-t` sorts all files or directories by time in descending order.
 Examples: `python ls.py -a directory`, `python ls.py -ltA directory`. You can use all of the flags at the same time.
+
+# Additional knowledge about ls flags
+You can read more about flags generally about `ls` typing `man ls` in Linux terminal.

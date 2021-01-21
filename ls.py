@@ -10,7 +10,7 @@ from get_functions import *
 
 def l_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
     """Prints directories and files like bash -l option."""
-    if not args_arg.all:
+    if not args_arg.all and not args_arg.almost_all:
         elements_list = list(filter(lambda x: x[0] != '.' and x[:2] != '..', elements_list_arg))
     else:
         elements_list = elements_list_arg
@@ -58,6 +58,7 @@ def main():
     parser = ArgumentParser()
 
     parser.add_argument('-a', '--all', action='store_true')
+    parser.add_argument('-A', '--almost_all', action='store_true')
     parser.add_argument('-l', action='store_true')
     parser.add_argument('-t', action='store_true')
     parser.add_argument(type=str, dest='path', nargs='?', default=os.getcwd())
@@ -88,7 +89,7 @@ def main():
         alphabet_dict = dict(sorted(list(alphabet_dict.items()), key=lambda x: x[1].lower()))
         elements_list = list(alphabet_dict.keys())
 
-        if not args.all:
+        if not args.all and not args.almost_all:
             if args.t:
                 time_sorted_list = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), time_sorted_dict.keys()))
                 chosen_list = time_sorted_list.copy()
@@ -97,10 +98,18 @@ def main():
                 chosen_list = elements_list_not_all.copy()
         else:
             if args.t:
-                time_sorted_list = list(filter((lambda x: x[0] != '.' and x[:2] != '..'), time_sorted_dict.keys()))
+                time_sorted_list = list(time_sorted_dict.keys())
+                if args.almost_all:
+                    time_sorted_list = list(filter((lambda x: x != '.' and x != '..'), time_sorted_list))
+
                 chosen_list = time_sorted_list.copy()
             else:
+                if args.almost_all:
+                    elements_list = list(filter((lambda x: x != '.' and x != '..'), elements_list))
+
                 chosen_list = elements_list.copy()
+
+        print(chosen_list)
 
         if not args.l:
             to_print = ""

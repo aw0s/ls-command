@@ -18,7 +18,7 @@ def get_chmod(path: str) -> str:
 
 def get_hard_links_amount(path: str) -> str:
     hard_links_amount = os.lstat(path).st_nlink
-
+    
     return str(hard_links_amount)
 
 
@@ -28,6 +28,12 @@ def user_who_created(path: str) -> str:
     return username
 
 
+def get_uid(path: str) -> str:
+    uid = getpwuid(os.lstat(path).st_uid).pw_uid
+
+    return uid
+
+
 def get_group(path: str) -> str:
     stat_info = os.lstat(path)
 
@@ -35,6 +41,12 @@ def get_group(path: str) -> str:
     group = getgrgid(gid)[0]
 
     return group
+
+
+def get_gid(path: str) -> str:
+    gid = getgrgid(os.lstat(path).st_gid).gr_gid
+
+    return gid
 
 
 def get_size(path: str) -> str:

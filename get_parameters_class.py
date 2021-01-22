@@ -5,7 +5,7 @@
 from get_functions import *
 
 
-class LOFlag:
+class LGOFlag:
     def __init__(self, path: str, element: str, args, max_chars_dict: dict):
         self.path = path
         self.element = element
@@ -15,12 +15,12 @@ class LOFlag:
         self.chmod = ""
         self.hard_links = ""
         self.user = ""
+        self.uid = ""
         self.group = ""
+        self.gid = ""
         self.size = ""
         self.date = ""
         self.hour = ""
-
-        self.to_print = ""
 
     def generate_parameters(self, path: str, max_chars_dict: dict) -> str:
         self.chmod = get_chmod(path)
@@ -55,10 +55,20 @@ class LOFlag:
             difference = 0
         size_spaces = difference * ' '
 
-        if self.args.o:
-            to_print = f"{self.chmod} {hard_links_spaces}{self.hard_links} {user_spaces}{self.user} {size_spaces}{self.size} {self.date} {self.hour} {self.element}"
+        if self.args.n:
+            self.uid = get_uid(self.path)
+            self.gid = get_gid(self.path)
+
+            if self.args.o or self.args.no_group:
+                to_print = f"{self.chmod} {hard_links_spaces}{self.hard_links} {user_spaces}{self.uid} {size_spaces}{self.size} {self.date} {self.hour} {self.element}"
+            else:
+                to_print = f"{self.chmod} {hard_links_spaces}{self.hard_links} {user_spaces}{self.uid} {group_spaces}{self.gid} {size_spaces}{self.size} {self.date} {self.hour} {self.element}"
         else:
-            to_print = f"{self.chmod} {hard_links_spaces}{self.hard_links} {user_spaces}{self.user} {group_spaces}{self.group} {size_spaces}{self.size} {self.date} {self.hour} {self.element}"
+            if self.args.o or self.args.no_group:
+                to_print = f"{self.chmod} {hard_links_spaces}{self.hard_links} {user_spaces}{self.user} {size_spaces}{self.size} {self.date} {self.hour} {self.element}"
+            else:
+                to_print = f"{self.chmod} {hard_links_spaces}{self.hard_links} {user_spaces}{self.user} {group_spaces}{self.group} {size_spaces}{self.size} {self.date} {self.hour} {self.element}"
+
         if os.path.islink(path):
             to_print += f" -> {os.path.realpath(path)}"
 

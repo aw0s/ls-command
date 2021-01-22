@@ -4,11 +4,11 @@
 from argparse import ArgumentParser
 from string import printable, digits, ascii_letters
 
-from get_parameters_class import LOFlag
+from get_parameters_class import LGOFlag
 from get_functions import *
 
 
-def lo_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
+def lgo_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
     """Prints directories and files like bash -l option."""
     if not args_arg.all and not args_arg.almost_all:
         elements_list = list(filter(lambda x: x[0] != '.' and x[:2] != '..', elements_list_arg))
@@ -34,18 +34,25 @@ def lo_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
 
         if (element_hard_links_amount := len(str(get_hard_links_amount(element_path)))) > hard_links_chm:
             hard_links_chm = element_hard_links_amount
-        if (element_user := len(str(user_who_created(element_path)))) > user_chm:
-            user_chm = element_user
-        if (element_group := len(str(get_group(element_path)))) > group_chm:
-            group_chm = element_group
         if (element_size := len(str(get_size(element_path)))) > size_chm:
             size_chm = element_size
+
+        if args_arg.n:
+            if (element_user := len(str(get_uid(element_path)))) > user_chm:
+                user_chm = element_user
+            if (element_group := len(str(get_gid(element_path)))) > group_chm:
+                group_chm = element_group
+        else:
+            if (element_uid := len(str(user_who_created(element_path)))) > user_chm:
+                user_chm = element_uid
+            if (element_gid := len(str(get_group(element_path)))) > group_chm:
+                group_chm = element_gid
 
     for element in elements_list:
         element_path = os.path.join(ls_path_arg, element)
 
         """chm - chars max"""
-        file_or_dir = LOFlag(element_path, element, args_arg, {
+        file_or_dir = LGOFlag(element_path, element, args_arg, {
             'hard_links': hard_links_chm,
             'user': user_chm,
             'group': group_chm,
@@ -61,6 +68,8 @@ def main():
     parser.add_argument('-A', '--almost_all', action='store_true')
     parser.add_argument('-l', action='store_true')
     parser.add_argument('-o', action='store_true')
+    parser.add_argument('-n', action='store_true')
+    parser.add_argument('-G', '--no_group', action='store_true')
     parser.add_argument('-t', action='store_true')
     parser.add_argument(type=str, dest='path', nargs='?', default=os.getcwd())
 
@@ -110,14 +119,14 @@ def main():
 
                 chosen_list = elements_list.copy()
 
-        if not args.l and not args.o:
+        if not args.l and not args.o and not args.n:
             to_print = ""
             for element in chosen_list:
                 to_print = f"{to_print}  {element}"
 
             print(to_print[2:])
         else:
-            lo_flag(
+            lgo_flag(
                 args_arg=args,
                 elements_list_arg=chosen_list,
                 ls_path_arg=ls_path,

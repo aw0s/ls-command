@@ -14,7 +14,7 @@ Type `cd ls-command` and then `python ls.py`. If names of folders and files have
 You can use the application passing directory as an argument during executing the program. For example: `python ls.py directory`.
 
 # Flags
-So far you can run the program using 3 flags: `-a`, `-A`, `-l` and `-t`:  
+So far you can run the program using 5 flags: `-a`, `-A`, `-l`, `-o` and `-t`:  
 `-a (--all)` shows all the directories and files, also which start with `.` and `..`.  
 `-A (--almost_all)` works the same as `-a`, but doesn't display `.` and `..` directories.  
 `-l` shows all parameters of the directory or file.  

@@ -21,7 +21,7 @@ So far you can run the program using 6 flags: `-a`, `-A`, `-l`, `-n`, `-o` and `
 `-n` works the same as `-l`, but instead of user and group names displays user and group IDs.  
 `-o` works the same as `-l`, but doesn't display infomation about group.  
 `-t` sorts all files or directories by time in descending order.  
-Examples: `python ls.py -a directory`, `python ls.py -ltA directory`. You can use all of the flags at the same time.
+Examples: `python ls.py -a path`, `python ls.py -ltA path`, `python ls.py`. You can use all of the flags at the same time.
 
 # Additional knowledge about ls flags
 You can read more about flags and generally about `ls` by typing `man ls` in Linux terminal.

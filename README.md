@@ -17,7 +17,7 @@ You can use the application passing directory as an argument during executing th
 So far you can run the program using 3 flags: `-a`, `-A`, `-l` and `-t`:  
 `-a (--all)` shows all the directories and files, also which start with `.` and `..`.  
 `-A (--almost_all)` works the same as `-a`, but doesn't display `.` and `..` directories.  
-`-l` shows all parameters of the directory or file.
+`-l` shows all parameters of the directory or file.  
 `-o` works the same as `-l`, but doesn't display infomation about group.  
 `-t` sorts all files or directories by time in descending order.  
 Examples: `python ls.py -a directory`, `python ls.py -ltA directory`. You can use all of the flags at the same time.

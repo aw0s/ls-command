@@ -4,11 +4,11 @@
 from argparse import ArgumentParser
 from string import printable, digits, ascii_letters
 
-from get_parameters_class import LFlag
+from get_parameters_class import LOFlag
 from get_functions import *
 
 
-def l_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
+def lo_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
     """Prints directories and files like bash -l option."""
     if not args_arg.all and not args_arg.almost_all:
         elements_list = list(filter(lambda x: x[0] != '.' and x[:2] != '..', elements_list_arg))
@@ -45,7 +45,7 @@ def l_flag(args_arg, elements_list_arg: list, ls_path_arg: str):
         element_path = os.path.join(ls_path_arg, element)
 
         """chm - chars max"""
-        file_or_dir = LFlag(element_path, element, {
+        file_or_dir = LOFlag(element_path, element, args_arg, {
             'hard_links': hard_links_chm,
             'user': user_chm,
             'group': group_chm,
@@ -60,6 +60,7 @@ def main():
     parser.add_argument('-a', '--all', action='store_true')
     parser.add_argument('-A', '--almost_all', action='store_true')
     parser.add_argument('-l', action='store_true')
+    parser.add_argument('-o', action='store_true')
     parser.add_argument('-t', action='store_true')
     parser.add_argument(type=str, dest='path', nargs='?', default=os.getcwd())
 
@@ -109,16 +110,14 @@ def main():
 
                 chosen_list = elements_list.copy()
 
-        print(chosen_list)
-
-        if not args.l:
+        if not args.l and not args.o:
             to_print = ""
             for element in chosen_list:
                 to_print = f"{to_print}  {element}"
 
             print(to_print[2:])
         else:
-            l_flag(
+            lo_flag(
                 args_arg=args,
                 elements_list_arg=chosen_list,
                 ls_path_arg=ls_path,

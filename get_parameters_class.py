@@ -1,14 +1,16 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
 
+"""get_functions imports also os, from stat filemode, from pwd getpwuid and from grp getgrgid"""
 from get_functions import *
 
 
-class LFlag:
-    def __init__(self, path: str, element: str, max_chars_dict: dict):
+class LOFlag:
+    def __init__(self, path: str, element: str, args, max_chars_dict: dict):
         self.path = path
-        self.max_chars_dict = max_chars_dict
         self.element = element
+        self.args = args
+        self.max_chars_dict = max_chars_dict
 
         self.chmod = ""
         self.hard_links = ""
@@ -53,7 +55,10 @@ class LFlag:
             difference = 0
         size_spaces = difference * ' '
 
-        to_print = f"{self.chmod} {hard_links_spaces}{self.hard_links} {user_spaces}{self.user} {group_spaces}{self.group} {size_spaces}{self.size} {self.date} {self.hour} {self.element}"
+        if self.args.o:
+            to_print = f"{self.chmod} {hard_links_spaces}{self.hard_links} {user_spaces}{self.user} {size_spaces}{self.size} {self.date} {self.hour} {self.element}"
+        else:
+            to_print = f"{self.chmod} {hard_links_spaces}{self.hard_links} {user_spaces}{self.user} {group_spaces}{self.group} {size_spaces}{self.size} {self.date} {self.hour} {self.element}"
         if os.path.islink(path):
             to_print += f" -> {os.path.realpath(path)}"
 

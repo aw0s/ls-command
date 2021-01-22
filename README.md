@@ -11,7 +11,7 @@ To download the project files, type `git clone https://github.com/aw0s/ls-comman
 Type `cd ls-command` and then `python ls.py`. If names of folders and files have been printed, the app works correctly. If something went wrong, report the bug in `Issues` on the project's Github. Make sure you've installed Python package.
 
 # Usage
-You can use the application passing directory as an argument during executing the program. For example: `python ls.py directory`.
+You can use the application by passing directory as an argument during executing the program. For example: `python ls.py directory`.
 
 # Flags
 So far you can run the program using 6 flags: `-a`, `-A`, `-l`, `-n`, `-o` and `-t`:  
@@ -24,4 +24,4 @@ So far you can run the program using 6 flags: `-a`, `-A`, `-l`, `-n`, `-o` and `
 Examples: `python ls.py -a directory`, `python ls.py -ltA directory`. You can use all of the flags at the same time.
 
 # Additional knowledge about ls flags
-You can read more about flags and generally about `ls` typing `man ls` in Linux terminal.
+You can read more about flags and generally about `ls` by typing `man ls` in Linux terminal.

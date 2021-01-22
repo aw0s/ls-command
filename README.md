@@ -18,6 +18,7 @@ So far you can run the program using 5 flags: `-a`, `-A`, `-l`, `-o` and `-t`:
 `-a (--all)` shows all the directories and files, also which start with `.` and `..`.  
 `-A (--almost_all)` works the same as `-a`, but doesn't display `.` and `..` directories.  
 `-l` shows all parameters of the directory or file.  
+`-n` works the same as `-l`, but instead of user and group names displays user and group IDs.  
 `-o` works the same as `-l`, but doesn't display infomation about group.  
 `-t` sorts all files or directories by time in descending order.  
 Examples: `python ls.py -a directory`, `python ls.py -ltA directory`. You can use all of the flags at the same time.

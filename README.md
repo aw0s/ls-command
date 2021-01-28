@@ -9,7 +9,7 @@ To download the project files, type `git clone https://github.com/aw0s/ls-comman
 
 ## Running the program
 Type `cd ls-command` and then `python ls.py`. If names of folders and files have been printed, the app works correctly. If something went wrong, report the bug in `Issues` on the project's Github. Make sure you've installed Python package.
-If You want ls app to be replaced with original ls, type `alias ls='python path/to/ls/ls.py'`.
+If You want ls app to be replaced with original ls, type `alias ls='python path/to/ls/ls.py'`. To remove alias, type `unalias ls`.
 
 ## Usage
 You can use the application by passing directory as an argument during executing the program. For example: `python ls.py directory`.
